@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="inertial_macros.xacro"/>
+
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+    
+    <link name="base_link">
+    </link>
+
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis_link"/>
+        <origin xyz="-0.23 0.0 -0.077"/>
+    </joint>
+
+    <link name="chassis_link">
+        <visual>
+            <origin xyz="0.4 0.0 0.065"/>
+            <geometry>
+                <box size="0.8 0.5 0.13"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0.4 0.0 0.065"/>
+            <geometry>
+                <box size="0.8 0.5 0.13"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="30.0" x="0.8" y="0.5" z="0.13">
+            <origin xyz="0.400 0.0 0.65" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="chassis_link">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <joint name="lrw_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="lrw_link"/>
+        <origin xyz="0.0 0.28937 0.0" rpy="-1.5708 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="lrw_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.07874" radius="0.127"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.07874"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="1.5" length="0.07874" radius="0.127">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="lrw_link">
+        <material>Gazebo/Blue</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+        <kp value="1000000.0"/>
+        <kd value="1"/>
+        <fdir1 value="1 0 0"/>
+    </gazebo>
+
+    <joint name="rrw_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rrw_link"/>
+        <origin xyz="0.0 -0.28937 0.0" rpy="1.5708 0 0"/>
+        <axis xyz="0 0 -1"/> 
+    </joint>
+
+    <link name="rrw_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.07874" radius="0.127"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.07874"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="1.5" length="0.07874" radius="0.127">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="rrw_link">
+        <material>Gazebo/Blue</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+        <kp value="1000000.0"/>
+        <kd value="1"/>
+        <fdir1 value="1 0 0"/>
+    </gazebo>
+
+    <joint name="lfw_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="lfw_link"/>
+        <origin xyz="0.42 0.28937 0.0" rpy="-1.5708 0 0"/>
+        <axis xyz="0 0 1"/> 
+    </joint>
+
+    <link name="lfw_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.07874" radius="0.127"/>
+            </geometry>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.07874"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="1.5" length="0.07874" radius="0.127">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="lfw_link">
+        <material>Gazebo/Orange</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+        <kp value="1000000.0"/>
+        <kd value="1"/>
+        <fdir1 value="1 0 0"/>
+    </gazebo>
+
+    <joint name="rfw_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rfw_link"/>
+        <origin xyz="0.42 -0.28737 0.0" rpy="1.5708 0 0"/>
+        <axis xyz="0 0 -1"/> 
+    </joint>
+
+    <link name="rfw_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.07874" radius="0.127"/>
+            </geometry>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.07874"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="1.5" length="0.07874" radius="0.127">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="rfw_link">
+        <material>Gazebo/Orange</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+        <kp value="1000000.0"/>
+        <kd value="1"/>
+        <fdir1 value="1 0 0"/>
+    </gazebo>
+</robot>
