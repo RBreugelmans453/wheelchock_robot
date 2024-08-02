@@ -25,6 +25,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'la_interface = wheelchock_robot.la_interface:main',
+            'test_la_behavior = wheelchock_robot.test_la_behavior:main',
         ],
     },
 )
