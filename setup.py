@@ -27,6 +27,8 @@ setup(
         'console_scripts': [
             'la_interface = wheelchock_robot.la_interface:main',
             'test_la_behavior = wheelchock_robot.test_la_behavior:main',
+            'odrive_control = wheelchock_robot.odrive_control:main',
+            'move_test_1 = wheelchock_robot.move_test_1:main',
         ],
     },
 )
