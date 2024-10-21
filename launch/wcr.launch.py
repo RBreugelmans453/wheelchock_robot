@@ -17,7 +17,7 @@ def generate_launch_description():
     # Check if we're told to use sim time
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    # Process the URDF file
+    # Process the URDF file (The file that contains the geometrical information about the robot)
     pkg_path = os.path.join(get_package_share_directory('wheelchock_robot'))
     urdf_file = os.path.join(pkg_path,'wcs.urdf.xacro')
     robot_description_config = xacro.process_file(urdf_file)
@@ -36,6 +36,7 @@ def generate_launch_description():
         parameters=[params]
     )
 
+    # Find the imu driver parameters
     imu_params = PathJoinSubstitution(
         [
             FindPackageShare("mpu6050driver"),
@@ -44,6 +45,7 @@ def generate_launch_description():
         ]
     )
 
+    # Find the imu filter parameters
     imu_filter_config = PathJoinSubstitution(
         [
             FindPackageShare("wheelchock_robot"),
@@ -52,6 +54,7 @@ def generate_launch_description():
         ]
     )
 
+    # Find the robot localization parameters
     robot_localization_config = PathJoinSubstitution(
         [
             FindPackageShare("wheelchock_robot"),
@@ -60,6 +63,7 @@ def generate_launch_description():
         ]
     )
 
+    # Setup the imu drive node
     mpu6050driver_node = Node(
         package='mpu6050driver',
         executable='mpu6050driver',
@@ -69,6 +73,7 @@ def generate_launch_description():
         parameters=[imu_params]
     )
 
+    # Setup the robot localization node
     robot_localization = Node(
         package="robot_localization",
         executable="ekf_node",
@@ -77,6 +82,7 @@ def generate_launch_description():
         parameters=[robot_localization_config],
     )
 
+    # Setup the imu filter node
     imu_filter = Node(
         package="imu_filter_madgwick",
         executable="imu_filter_madgwick_node",
@@ -92,7 +98,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
 
-    # Create the hardware interface node
+    # Create the odrive hardware interface node
     odrive_controller_node = Node(
         package='wheelchock_robot',
         executable='odrive_control',
@@ -100,7 +106,7 @@ def generate_launch_description():
         output='screen',
     )
 
-    # Create a lidar node
+    # Setup the lidar driver node
     params_declare = DeclareLaunchArgument('params_file',
                                            default_value=os.path.join(
                                                lidar_share_dir, 'params', 'TG.yaml'),
@@ -114,12 +120,14 @@ def generate_launch_description():
                                 parameters=[parameter_file],
                                 namespace='/',
                                 )
+    # Setup the tf2 node
     tf2_node = Node(package='tf2_ros',
                     executable='static_transform_publisher',
                     name='static_tf_pub_laser',
                     arguments=['0', '0', '0.02','0', '0', '0', '1','base_link','laser_frame'],
                     )
-    # Launch!
+                    
+    # Launch the nodes
     return LaunchDescription([
         DeclareLaunchArgument(
             'use_sim_time',

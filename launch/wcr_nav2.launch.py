@@ -27,10 +27,12 @@ from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
-    # Get the launch directory
+    # Get the location of the nav2 package
     bringup_dir = get_package_share_directory('nav2_bringup')
+    # Get the location of the configuration file for the nav2 package
     config_dir = get_package_share_directory('wheelchock_robot')
 
+    # This is all copied from X
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
